@@ -69,7 +69,7 @@ export default function LoginFormSection() {
             label="Email / Mobile Number"
             value={emailOrMobile}
             onChangeText={setEmailOrMobile}
-            placeholder="you@example.com or +1 234 567 8900"
+            placeholder="Enter your email or mobile number"
             error={errors.emailOrMobile}
             keyboardType="email-address"
             autoCapitalize="none"
