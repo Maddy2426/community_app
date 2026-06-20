@@ -16,7 +16,7 @@ import {
   resetPage,
 } from '@/store/postsSlice';
 import { setSavedPostIds, toggleSavePost, removeSavedPost } from '@/store/savedPostsSlice';
-import { store } from '@/store';
+import { RootState, store } from '@/store';
 import { getInitialPosts, generateMockPosts, buildInitialFeed } from '@/services/mockDataService';
 import { User, Post } from '@/types';
 import { storageService } from '@/services/storageService';
@@ -67,8 +67,8 @@ export const useAuth = () => {
 
 export const usePosts = () => {
   const dispatch = useAppDispatch();
-  const postsState = useAppSelector((state) => state.posts);
-  const user = useAppSelector((state) => state.auth.user);
+  const postsState = useAppSelector((state: RootState) => state.posts);
+  const user = useAppSelector((state: RootState) => state.auth.user);
 
   const loadPosts = useCallback(async () => {
     dispatch(setPostsLoading(true));
