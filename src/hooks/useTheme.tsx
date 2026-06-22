@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import { View, StatusBar } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ThemeMode } from '@/types';
 import { getThemeColors } from '@/utils/theme';
 import { storageService } from '@/services/storageService';
@@ -36,7 +38,19 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     [mode, colors, toggleTheme]
   );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>
+      <SafeAreaProvider>
+        <SafeAreaView
+          style={{ flex: 1, backgroundColor: colors.primary }}
+          edges={['top', 'left', 'right']}
+        >
+          <StatusBar barStyle="light-content" backgroundColor={colors.primary} />
+          <View style={{ flex: 1, backgroundColor: colors.background }}>{children}</View>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </ThemeContext.Provider>
+  );
 };
 
 export const useTheme = (): ThemeContextValue => {

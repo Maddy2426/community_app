@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 
 interface HeaderProps {
@@ -19,7 +18,6 @@ const HeaderComponent: React.FC<HeaderProps> = ({
   onBack,
   rightAction,
 }) => {
-  const insets = useSafeAreaInsets();
   const { colors } = useTheme();
 
   return (
@@ -27,7 +25,6 @@ const HeaderComponent: React.FC<HeaderProps> = ({
       style={[
         styles.container,
         {
-          paddingTop: insets.top + 8,
           backgroundColor: colors.primary,
         },
       ]}
@@ -54,6 +51,7 @@ const HeaderComponent: React.FC<HeaderProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 8,
     paddingBottom: 16,
     paddingHorizontal: 16,
   },

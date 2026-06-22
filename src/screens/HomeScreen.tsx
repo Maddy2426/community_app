@@ -10,6 +10,7 @@ export default function HomeScreen() {
   const { colors } = useTheme();
   const { posts, isLoading } = useAppSelector((state) => state.posts);
 
+
   if (isLoading && posts.length === 0) {
     return (
       <View style={[styles.container, { backgroundColor: colors.background }]}>

@@ -1,15 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/useTheme';
 
 export default function LoginBrandingSection() {
-  const insets = useSafeAreaInsets();
   const { colors } = useTheme();
 
   return (
-    <View style={[styles.header, { paddingTop: insets.top + 40, backgroundColor: colors.primary }]}>
+    <View style={[styles.header, { backgroundColor: colors.primary }]}>
       <View style={styles.logoCircle}>
         <Ionicons name="logo-edge" size={48} color={colors.white} />
       </View>
@@ -22,6 +20,7 @@ export default function LoginBrandingSection() {
 const styles = StyleSheet.create({
   header: {
     alignItems: 'flex-start',
+    paddingTop: 40,
     paddingHorizontal: 24,
     paddingBottom: 48,
     borderBottomLeftRadius: 32,
