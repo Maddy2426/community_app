@@ -1,19 +1,21 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { StyleSheet, RefreshControl } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
-import { PostCard, Loader, EmptyState } from '@/components';
-import { useAppSelector, useAppDispatch } from '@/hooks/useAppDispatch';
-import { usePosts, useSavedPosts } from '@/hooks/useAppActions';
-import { useTheme } from '@/hooks/useTheme';
-import { setSearchQuery } from '@/store/postsSlice';
-import { Post } from '@/types';
-import HomeSearchSection from '@/sections/home/HomeSearchSection';
+import { EmptyState, Loader, PostCard } from "@/components";
+import { usePosts, useSavedPosts } from "@/hooks/useAppActions";
+import { useAppDispatch, useAppSelector } from "@/hooks/useAppDispatch";
+import { useTheme } from "@/hooks/useTheme";
+import HomeSearchSection from "@/sections/home/HomeSearchSection";
+import { setSearchQuery } from "@/store/postsSlice";
+import { Post } from "@/types";
+import { FlashList } from "@shopify/flash-list";
+import { useCallback, useMemo, useState } from "react";
+import { RefreshControl, StyleSheet } from "react-native";
 
 export default function HomeFeedSection() {
   const dispatch = useAppDispatch();
   const { colors } = useTheme();
   const user = useAppSelector((state) => state.auth.user);
-  const { posts, isLoadingMore, hasMore, searchQuery } = useAppSelector((state) => state.posts);
+  const { posts, isLoadingMore, hasMore, searchQuery } = useAppSelector(
+    (state) => state.posts,
+  );
   const { savedPostIds, loadSavedPosts, toggleSave } = useSavedPosts();
   const { loadPosts, likePost, sharePost, loadMorePosts } = usePosts();
   const [refreshing, setRefreshing] = useState(false);
@@ -24,7 +26,7 @@ export default function HomeFeedSection() {
     return posts.filter(
       (p) =>
         p.description.toLowerCase().includes(query) ||
-        p.authorUsername.toLowerCase().includes(query)
+        p.authorUsername.toLowerCase().includes(query),
     );
   }, [posts, searchQuery]);
 
@@ -39,7 +41,7 @@ export default function HomeFeedSection() {
     (text: string) => {
       dispatch(setSearchQuery(text));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const renderItem = useCallback(
@@ -53,7 +55,7 @@ export default function HomeFeedSection() {
         onShare={sharePost}
       />
     ),
-    [user?.id, savedPostIds, likePost, toggleSave, sharePost]
+    [user?.id, savedPostIds, likePost, toggleSave, sharePost],
   );
 
   const handleEndReached = useCallback(() => {
@@ -63,8 +65,10 @@ export default function HomeFeedSection() {
   }, [loadMorePosts, searchQuery, hasMore, isLoadingMore]);
 
   const ListHeader = useMemo(
-    () => <HomeSearchSection searchQuery={searchQuery} onSearch={handleSearch} />,
-    [searchQuery, handleSearch]
+    () => (
+      <HomeSearchSection searchQuery={searchQuery} onSearch={handleSearch} />
+    ),
+    [searchQuery, handleSearch],
   );
 
   const ListFooter = useMemo(() => {
@@ -86,7 +90,11 @@ export default function HomeFeedSection() {
         <EmptyState
           icon="newspaper-outline"
           title="No posts found"
-          message={searchQuery ? 'Try a different search term' : 'Be the first to create a post!'}
+          message={
+            searchQuery
+              ? "Try a different search term"
+              : "Be the first to create a post!"
+          }
         />
       }
       refreshControl={
@@ -99,7 +107,9 @@ export default function HomeFeedSection() {
       }
       onEndReached={handleEndReached}
       onEndReachedThreshold={0.3}
-      contentContainerStyle={filteredPosts.length === 0 ? styles.emptyList : styles.list}
+      contentContainerStyle={
+        filteredPosts.length === 0 ? styles.emptyList : styles.list
+      }
       showsVerticalScrollIndicator={false}
     />
   );

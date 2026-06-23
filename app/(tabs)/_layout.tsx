@@ -2,6 +2,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { Entypo, Feather, Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { Platform, StyleSheet, TouchableOpacity } from "react-native";
+import React from 'react';
 
 const TAB_ICON_COLOR = "#6B7280";
 
@@ -90,7 +91,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="chat"
         options={{
-          title: "Saved",
+          title: "Chat",
           tabBarIcon: ({ size, focused }) => (
             <Entypo name="message" size={size} color={focused ? colors.primary : TAB_ICON_COLOR} />
           ),

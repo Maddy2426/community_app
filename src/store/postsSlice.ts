@@ -1,19 +1,19 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Comment, Post, PostsState } from '@/types';
-import { generateId } from '@/utils/helpers';
+import { Comment, Post, PostsState } from "@/types";
+import { generateId } from "@/utils/helpers";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: PostsState = {
   posts: [],
   isLoading: false,
   isLoadingMore: false,
   error: null,
-  searchQuery: '',
+  searchQuery: "",
   hasMore: true,
   page: 1,
 };
 
 const postsSlice = createSlice({
-  name: 'posts',
+  name: "posts",
   initialState,
   reducers: {
     setPosts: (state, action: PayloadAction<Post[]>) => {
@@ -28,10 +28,23 @@ const postsSlice = createSlice({
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
-    addPost: (state, action: PayloadAction<Post>) => {
-      state.posts.unshift(action.payload);
+    addPost: (state, action: PayloadAction<any>) => {
+      const p = action.payload;
+      const post = {
+        likes: [],
+        comments: [],
+        authorId: "unknown",
+        authorUsername: "unknown",
+        authorAvatar: undefined,
+        ...p,
+      };
+      state.posts = state.posts ?? [];
+      state.posts.unshift(post); // keep newest first
     },
-    toggleLike: (state, action: PayloadAction<{ postId: string; userId: string }>) => {
+    toggleLike: (
+      state,
+      action: PayloadAction<{ postId: string; userId: string }>,
+    ) => {
       const post = state.posts.find((p) => p.id === action.payload.postId);
       if (post) {
         const index = post.likes.indexOf(action.payload.userId);
@@ -50,7 +63,7 @@ const postsSlice = createSlice({
         authorUsername: string;
         authorAvatar?: string;
         message: string;
-      }>
+      }>,
     ) => {
       const post = state.posts.find((p) => p.id === action.payload.postId);
       if (post) {
@@ -68,11 +81,13 @@ const postsSlice = createSlice({
     },
     deleteComment: (
       state,
-      action: PayloadAction<{ postId: string; commentId: string }>
+      action: PayloadAction<{ postId: string; commentId: string }>,
     ) => {
       const post = state.posts.find((p) => p.id === action.payload.postId);
       if (post) {
-        post.comments = post.comments.filter((c) => c.id !== action.payload.commentId);
+        post.comments = post.comments.filter(
+          (c) => c.id !== action.payload.commentId,
+        );
       }
     },
     setSearchQuery: (state, action: PayloadAction<string>) => {

@@ -1,12 +1,3 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import ChatScreen from "@/screens/ChatScreen";
 
-const chat = () => {
-  return (
-    <View>
-      <Text>chat</Text>
-    </View>
-  )
-}
-
-export default chat
+export default ChatScreen;
